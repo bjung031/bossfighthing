@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fighthing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <div id="screen-main-menu" class="screen active"></div>
+    <div id="screen-char-select" class="screen"></div>
+    <div id="screen-dungeon-select" class="screen"></div>
+    <div id="screen-difficulty-select" class="screen"></div>
+    <div id="screen-game" class="screen">
+      <canvas id="canvas-2d"></canvas>
+      <div id="canvas-3d-container"></div>
+      <div id="transition-overlay"></div>
+      <div id="hud">
+        <div id="hud-row1">
+          <div id="hud-hearts"></div>
+          <div id="hud-view-indicator">2D</div>
+          <div id="hud-coins">&#9679; <span id="hud-coin-count">0</span></div>
+        </div>
+        <div id="hud-inv-panel">
+          <div class="hud-inv-section-title">Equipped</div>
+          <div id="hud-equipped-slots"></div>
+          <div class="hud-inv-section-title">Backpack</div>
+          <div id="hud-backpack-slots"></div>
+          <div id="hud-loot-wrap" style="display:none">
+            <div class="hud-inv-section-title">Nearby Loot</div>
+            <div id="hud-loot-slots"></div>
+          </div>
+        </div>
+      </div>
+      <div id="tooltip-box"></div>
+      <div id="item-stat-tooltip"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/data/gear.js"></script>
+  <script src="js/data/characters.js"></script>
+  <script src="js/data/items.js"></script>
+  <script src="js/data/dungeons.js"></script>
+  <script src="js/game/TileRenderer2D.js"></script>
+  <script src="js/game/Renderer3D.js"></script>
+  <script src="js/game/Player.js"></script>
+  <script src="js/game/Map.js"></script>
+  <script src="js/game/BossRoom.js"></script>
+  <script src="js/game/Chest.js"></script>
+  <script src="js/game/Tutorial.js"></script>
+  <script src="js/game/Game.js"></script>
+  <script src="js/screens/MainMenu.js"></script>
+  <script src="js/screens/CharacterSelect.js"></script>
+  <script src="js/screens/DungeonSelect.js"></script>
+  <script src="js/screens/DifficultySelect.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

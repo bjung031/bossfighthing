@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fighthing — Level Editor</title>
+  <link rel="stylesheet" href="editor.css" />
+</head>
+<body>
+  <div id="ed-app">
+
+    <!-- ── Left Sidebar ───────────────────────────────── -->
+    <aside id="ed-sidebar">
+      <div class="ed-logo">
+        <span class="ed-logo-title">Fighthing</span>
+        <span class="ed-logo-sub">Level Editor</span>
+      </div>
+
+      <a href="index.html" class="ed-back-btn">← Back to Game</a>
+
+      <section class="ed-section">
+        <div class="ed-section-title">Tools</div>
+        <div id="ed-palette"></div>
+      </section>
+
+      <section class="ed-section" id="ed-props-section" style="display:none">
+        <div class="ed-section-title">Sign Text</div>
+        <textarea id="ed-sign-text" rows="4" placeholder="Enter sign text…"></textarea>
+        <button class="ed-btn" id="ed-sign-save-btn">Apply Sign</button>
+      </section>
+
+      <section class="ed-section" id="ed-entity-section" style="display:none">
+        <div class="ed-section-title">Entity Options</div>
+        <div class="ed-field-row">
+          <label>Y3 Height</label>
+          <input type="number" id="ed-entity-y3" value="3.0" min="0" max="10" step="0.5" />
+        </div>
+        <div class="ed-field-row">
+          <label>Body Color</label>
+          <input type="color" id="ed-entity-color" value="#886644" />
+        </div>
+        <div class="ed-field-row">
+          <label>Accent</label>
+          <input type="color" id="ed-entity-accent" value="#2a1440" />
+        </div>
+        <div class="ed-field-row">
+          <label>Scale</label>
+          <input type="number" id="ed-entity-scale" value="1.0" min="0.5" max="2.0" step="0.1" />
+        </div>
+      </section>
+
+      <section class="ed-section">
+        <div class="ed-section-title">Map Settings</div>
+        <div class="ed-field-row">
+          <label>Width</label>
+          <input type="number" id="ed-map-w" value="26" min="4" max="128" />
+        </div>
+        <div class="ed-field-row">
+          <label>Height</label>
+          <input type="number" id="ed-map-h" value="90" min="4" max="256" />
+        </div>
+        <button class="ed-btn" id="ed-resize-btn">Resize Map</button>
+        <div class="ed-field-row" style="margin-top:10px">
+          <label>Spawn X</label>
+          <input type="number" id="ed-spawn-x" value="12" min="0" />
+        </div>
+        <div class="ed-field-row">
+          <label>Spawn Y</label>
+          <input type="number" id="ed-spawn-y" value="83" min="0" />
+        </div>
+        <button class="ed-btn" id="ed-set-spawn-btn">Set Spawn</button>
+      </section>
+
+      <section class="ed-section">
+        <div class="ed-section-title">File</div>
+        <button class="ed-btn ed-btn-primary" id="ed-save-btn">💾 Save JSON</button>
+        <button class="ed-btn" id="ed-load-btn">📂 Load JSON</button>
+        <input type="file" id="ed-file-input" accept=".json" style="display:none" />
+        <button class="ed-btn" id="ed-copy-btn">📋 Copy JS Code</button>
+        <button class="ed-btn" id="ed-load-tut-btn">🗺 Load Tutorial</button>
+        <button class="ed-btn ed-btn-danger" id="ed-new-btn">✕ New Map</button>
+      </section>
+    </aside>
+
+    <!-- ── Main 2D canvas ───────────────────────────── -->
+    <main id="ed-canvas-wrap">
+      <div id="ed-toolbar">
+        <span id="ed-view-toggle-btn" class="ed-tab active" data-view="2d">2D View</span>
+        <span id="ed-view-toggle-3d"  class="ed-tab"        data-view="3d">3D Preview</span>
+        <span id="ed-zoom-out" class="ed-icon-btn">−</span>
+        <span id="ed-zoom-label">12 px/tile</span>
+        <span id="ed-zoom-in"  class="ed-icon-btn">+</span>
+        <span id="ed-status" style="margin-left:auto"></span>
+      </div>
+      <canvas id="ed-canvas-2d"></canvas>
+      <div id="ed-canvas-3d"></div>
+      <div id="ed-crosshair">+</div>
+      <div id="ed-3d-hint">Click to capture · LClick: place · RClick: erase · WASD/Q/E: fly · F: inventory · C: copy · V: paste · ESC: release</div>
+
+      <!-- 3D Inventory modal (F key) -->
+      <div id="ed-3d-inv">
+        <div id="ed-3d-inv-panel">
+          <div id="ed-3d-inv-header">
+            <span class="ed-3d-inv-tab active" data-tab="Tiles">Tiles</span>
+            <span class="ed-3d-inv-tab" data-tab="Entities">Entities</span>
+            <span class="ed-3d-inv-tab" data-tab="Tools">Tools</span>
+            <span id="ed-3d-inv-close">✕</span>
+          </div>
+          <div id="ed-3d-inv-grid"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ── Right Sidebar (Hierarchy + Inspector) ──── -->
+    <aside id="ed-rightsidebar">
+      <div class="ed-logo">
+        <span class="ed-logo-title" style="font-size:13px;letter-spacing:2px">Objects</span>
+      </div>
+
+      <!-- Object Hierarchy -->
+      <section class="ed-section" id="ed-hierarchy-section">
+        <div class="ed-section-title ed-hier-title">
+          Scene
+          <span id="ed-hier-collapse" title="Collapse">▾</span>
+        </div>
+        <div id="ed-hierarchy-list"></div>
+      </section>
+
+      <!-- Inspector -->
+      <section class="ed-section" id="ed-inspector-section" style="display:none">
+        <div class="ed-section-title" id="ed-insp-title">Inspector</div>
+        <div class="ed-field-row" id="ed-insp-y3-row">
+          <label>Y3 Height</label>
+          <input type="number" id="ed-insp-y3" min="0" max="10" step="0.5" />
+        </div>
+        <div class="ed-field-row">
+          <label>Body Color</label>
+          <input type="color" id="ed-insp-color" />
+        </div>
+        <div class="ed-field-row">
+          <label>Accent</label>
+          <input type="color" id="ed-insp-accent" />
+        </div>
+        <div class="ed-field-row">
+          <label>Scale</label>
+          <input type="number" id="ed-insp-scale" min="0.5" max="2.0" step="0.1" />
+        </div>
+        <button class="ed-btn ed-btn-primary" id="ed-insp-apply">Apply Changes</button>
+        <button class="ed-btn ed-btn-danger" id="ed-insp-delete">Delete Object</button>
+      </section>
+    </aside>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/game/Map.js"></script>
+  <script src="js/game/Tutorial.js"></script>
+  <script src="js/editor/Editor.js"></script>
+</body>
+</html>
