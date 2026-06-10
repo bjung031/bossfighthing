@@ -66,7 +66,7 @@ class Renderer3D {
     const playerBulletMat = new THREE.MeshLambertMaterial({ color: 0xff8844, emissive: 0x441100 });
     const enemyBulletMat  = new THREE.MeshLambertMaterial({ color: 0xff44aa, emissive: 0x441133 });
 
-    for (let i = 0; i < 32; i++) {
+    for (let i = 0; i < 64; i++) {
       const m = new THREE.Mesh(bulletGeo, playerBulletMat);
       m.visible = false;
       this.scene.add(m);

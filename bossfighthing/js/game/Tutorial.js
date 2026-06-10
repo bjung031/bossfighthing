@@ -73,8 +73,8 @@ function buildTutorialMap() {
     { tx: 12, ty: 30, type: 'sign', text: 'Press SHIFT to switch\nyour dimensional view!' },
     { tx: 7,  ty: 28, type: 'sign', text: 'In 3D, jump with SPACE.\nClimb the pedestals!' },
     { tx: 17, ty: 28, type: 'sign', text: 'You can see coins atop\nthe pedestals from 2D...\nbut you need 3D to reach them!' },
-    { tx: 12, ty: 20, type: 'sign', text: 'BOSS ROOM AHEAD!\nTwo egg turrets hang 3 tiles up.\nSwitch to 3D (SHIFT) to shoot them!' },
-    { tx: 12, ty: 3,  type: 'sign', text: 'Watch out for the spider\'s\nweb rays — they slow you!\nDodge spread shots, watch your HP.' },
+    { tx: 12, ty: 20, type: 'sign', text: 'BOSS AHEAD: VESPERA,\nTHE BROODMOTHER.\nRed circles on the ground mean\nGET OUT — every attack is telegraphed.' },
+    { tx: 12, ty: 3,  type: 'sign', text: 'Her egg turrets hang 3 tiles up —\nuse 3D (SHIFT) to destroy them.\nWhen she shields, break BOTH eggs:\nshe\'ll be VULNERABLE to 2x damage!' },
   ];
 
   const objects = [
